@@ -23,7 +23,8 @@ const CartEntry = ({
       </option>
     );
   }
-  const { isPending, startTransition } = useTransition();
+  const [ isPending, startTransition ] = useTransition();
+
   return (
     <div>
       <div className="flex flex-wrap gap-4 items-center">
