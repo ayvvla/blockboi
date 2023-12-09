@@ -4,7 +4,7 @@ import { CartItemWithProduct } from "@/lib/db/cart";
 import formatPrice from "@/lib/format";
 import Image from "next/image";
 import Link from "next/link";
-import { startTransition, useTransition } from "react";
+import { useTransition } from "react";
 
 interface CartEntryProps {
   cartItem: CartItemWithProduct;
@@ -23,7 +23,7 @@ const CartEntry = ({
       </option>
     );
   }
-  const [ isPending, startTransition ] = useTransition();
+  const [isPending, startTransition] = useTransition();
 
   return (
     <div>
@@ -43,27 +43,50 @@ const CartEntry = ({
           <div className="my-1 flex items-center gap-2">
             Quantity :
             {/* <select
-              className="select w-4 max-w-[80px]"
+              className="select w-full max-w-[80px]"
               defaultValue={quantity}
-            ></select> */}
+              onChange={(e) => {
+                const newQuantity = parseInt(e.target.value)
+                startTransition(async () => {
+                  await setProductQuantity(product.id, newQuantity)
+                })
+              }}
+            >
+              {quantityOptions}
+            </select> */}
             <input
               type="number"
               name="quantity"
               defaultValue={quantity}
               max={30}
-              className=" select-ghost w-full max-w-[80px] text-center focus:outline-none"
+              className=" select-primary rounded-md px-2 w-full max-w-[80px] text-center focus:outline-none"
               onChange={(e) => {
                 const newQuantity = parseInt(e.currentTarget.value);
-                start
+                startTransition(async () => {
+                  await setProductQuantity(product.id, newQuantity);
+                });
               }}
             />
           </div>
           <div className="flex items-center gap-3">
             Total: {formatPrice(product.price * quantity)}
+            {isPending && (
+              <span className="loading loading-spinner loading-sm" />
+            )}
           </div>
+          <button
+            className="btn btn-sm btn-error"
+            onClick={() => {
+              startTransition(async () => {
+                await setProductQuantity(product.id, 0);
+              });
+            }}
+          >
+            Remove from cart
+          </button>
         </div>
-        <div className="divider" />
       </div>
+      <div className="divider" />
     </div>
   );
 };
