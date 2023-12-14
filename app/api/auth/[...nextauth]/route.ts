@@ -6,13 +6,15 @@ import { Adapter } from "next-auth/adapters";
 import NextAuth from "next-auth/next";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
+import { mergeAnonymousCart } from "@/lib/db/cart";
 
 export const authOptions: NextAuthOptions = {
   session: {
     strategy: "jwt",
     maxAge: 30 * 24 * 60 * 60,
-    updateAge: 24 * 60 * 60
+    updateAge: 24 * 60 * 60,
   },
+  secret: process.env.NEXTAUTH_SECRET,
   adapter: PrismaAdapter(prisma) as Adapter,
   providers: [
     GoogleProvider({
@@ -29,42 +31,45 @@ export const authOptions: NextAuthOptions = {
       },
     }),
 
-    // CredentialsProvider({
-    //   name: "Username & Password",
-    //   credentials: {
-    //     username: {
-    //       label: "Username",
-    //       type: "text",
-    //       placeholder: "Enter your username",
-    //     },
-    //     password: { label: "Password", type: "password" },
-    //   },
-    //   async authorize(credentials, req) {
-    //     const user = { id: "1", name: "John", email: "jsmith@example.com" };
-
-    //     if (user) {
-    //       return user;
-    //     } else {
-    //       return null;
-    //     }
-    //   },
-    // }),
+    CredentialsProvider({
+      name: "credentials",
+      credentials: {
+        username: { label: "username", type: "text", placeholder: "Username" },
+        password: {
+          label: "password",
+          type: "password",
+          placeholder: "Password",
+        },
+      },
+      async authorize(credentials, req) {
+        const user = await prisma.user.findUnique({
+          where :{id:this.id }
+        })
+      },
+    }),
   ],
 
   callbacks: {
     async jwt({ token, user }) {
-      // if (user) {
-      //   token.role = user.role;
-      // }
-      // return token;
-      return { ...token, ...user };
+      if (user) {
+        token.role = user.role;
+      }
+      return token;
+      // return { ...token, ...user, };
     },
 
-    async session({ session, token }) {
-      if (session.user) {
+    async session({ session, token, user }) {
+      if (session) {
         session.user.role = token.role;
+        session.user.id = token.id;
       }
       return session;
+    },
+  },
+
+  events: {
+    async signIn({ user }) {
+      await mergeAnonymousCart(user.id);
     },
   },
 };
