@@ -22,7 +22,7 @@ const config: Config = {
           warning: '#b64c00',
           error: '#cf003a',
           body: {
-            "background-color": "#e3e6e6" // to add a different dark theme 
+            "background-color": "#f9f9f9" // to add a different dark theme 
           }
         },
       },

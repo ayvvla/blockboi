@@ -20,7 +20,6 @@ const addProduct = async (formData: FormData) => {
   if (!name || !description || !category || !imageUrl || !price) {
     throw Error("Mising required fields");
   }
-
   
   await prisma.product.create({
     data: { name, description, category, imageUrl, price },

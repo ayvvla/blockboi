@@ -9,7 +9,7 @@ interface UserMenuButtonProps {
 }
 
 const UserMenuButton = ({ session }: UserMenuButtonProps) => {
-  console.log(session);
+  // console.log(session);
   const user = session?.user;
 
   return (

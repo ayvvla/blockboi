@@ -22,10 +22,10 @@ export default function RootLayout({
   const session = getServerSession(authOptions)
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={`w-[100%] ${inter.className}`}>
         <SessionProvider>
           <Navbar />
-          <main className="px-0 py-4 max-w-7xl m-auto min-w-[300px]">{children}</main>
+          <main className="px-0 py-4 min-w-[300px]">{children}</main>
           <Footer />
         </SessionProvider>
       </body>

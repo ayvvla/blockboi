@@ -8,6 +8,9 @@ const nextConfig = {
       {
         hostname: "fakestoreapi.com",
       },
+      {
+        hostname : "via.placeholder.com"
+      }
     ],
   },
 };

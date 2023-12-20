@@ -1,4 +1,5 @@
 import prisma from "@/lib/db/prisma";
+import bcrypt from "bcrypt";
 import { env } from "@/lib/env";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { NextAuthOptions, Account, Profile } from "next-auth";
@@ -35,16 +36,44 @@ export const authOptions: NextAuthOptions = {
       name: "credentials",
       credentials: {
         username: { label: "username", type: "text", placeholder: "Username" },
+        email: { label: "email", type: "text", placeholder: "Email" },
         password: {
           label: "password",
           type: "password",
           placeholder: "Password",
         },
       },
+
       async authorize(credentials, req) {
+        //check validity of credentials
+        if (!credentials?.email || !credentials?.password) {
+          return null;
+        }
+
+        //if user exists
         const user = await prisma.user.findUnique({
-          where :{id:this.id }
-        })
+          where: {
+            email: credentials?.email,
+          },
+        });
+
+        if (!user) {
+          console.log("user doesn't exist");
+          return null;
+        }
+
+        // check if password match
+        const passwordMatch = await bcrypt.compare(
+          credentials?.password,
+          user.hashedPassword
+        );
+
+        if (!passwordMatch) {
+          console.log("password mismatch");
+          return null;
+        }
+
+        return user;
       },
     }),
   ],
@@ -71,6 +100,11 @@ export const authOptions: NextAuthOptions = {
     async signIn({ user }) {
       await mergeAnonymousCart(user.id);
     },
+  },
+
+  pages: {
+    signIn: "/Login",
+    error: "auth/error",
   },
 };
 
