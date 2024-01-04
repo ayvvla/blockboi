@@ -1,15 +1,14 @@
 import Link from "next/link";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../api/auth/[...nextauth]/route";
-import { FaInstagram, FaTwitter, FaFacebook } from "react-icons/fa";
-import { AiOutlineFacebook } from "react-icons/ai";
+import { FaInstagram, FaTwitter, FaFacebook, FaWhatsapp } from "react-icons/fa";
 
 const Footer = async () => {
   const session = await getServerSession(authOptions);
 
   return (
-    <footer className="bg-neutral py-10 text-neutral-content mt-28">
-      <div className="footer m-auto max-w-[80%]">
+    <footer className="bg-neutral py-10 px-6 text-neutral-content">
+      <div className="footer grid-cols-1 md:grid-cols-4 m-auto max-w-[90%]">
         <div>
           <span className="footer-title">Services</span>
           <a className="link-hover link">Branding</a>
@@ -32,11 +31,11 @@ const Footer = async () => {
           <a className="link-hover link">Press kit</a>
         </div>
 
-        <div className="footer-center gap-y-4">
-          <span className="footer-title">Connect</span>
+        <div className="lg:footer-center gap-y-4 ">
+          <span className="footer-title">Contact</span>
           <a
             href="mailto:blockboicouture@gmail.com"
-            className="link-hover link"
+            className="link-hover link text-xs lg:text-sm"
           >
             blockboicouture@gmail.com
           </a>
@@ -48,12 +47,13 @@ const Footer = async () => {
               <FaInstagram size={30} />
             </a>
             <a>
-              {" "}
               <FaFacebook size={30} />
             </a>
             <a>
-              {" "}
               <FaTwitter size={30} />
+            </a>
+            <a href="https://wa.me/9021080632" target="_blank">
+              <FaWhatsapp size={30} />
             </a>
           </div>
         </div>
@@ -66,7 +66,7 @@ const Footer = async () => {
               name="name"
               type="text"
               placeholder="Name"
-              className="input input-primary"
+              className="input input-primary w-full"
             />
             <input
               name="mail"
@@ -74,7 +74,7 @@ const Footer = async () => {
               placeholder="Email"
               className="input input-primary"
             />
-            <button className="btn btn-accent w-24">Subscribe</button>
+            <button className="btn btn-info w-24">Subscribe</button>
           </form>
         </div>
       </div>

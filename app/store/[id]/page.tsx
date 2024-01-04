@@ -17,7 +17,7 @@ const categoryPage = async ({ params: { id } }: categoryPageProp) => {
         <span className="text-3xl font-bold mt-5 mb-14">{id}</span>
       <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-5">
         {products.map((product) => {
-          return <ProductCard product={product} />;
+          return <ProductCard product={product} key={product.id}/>;
         })}
       </div>
     </div>

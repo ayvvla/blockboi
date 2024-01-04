@@ -43,11 +43,9 @@ const Hero = () => {
             <div className=" hero-content items-start max-w-5xl flex flex-col gap-y-10">
               <h1 className="text-5xl font-bold">Unleash Your Style!</h1>
               <p className="max-w-3xl">
-                Welcome to our Block.Boi Fashion Store, where style meets
-                sophistication. We offer a curated selection of high-quality
-                clothing designed to make you look and feel your best. Explore
-                our latest collection and discover a new world of fashion right
-                at your fingertips. It's time to redefine your style with us.
+                Block.Boi is your gateway to the latest in high-street fashion,
+                Elevate your wardrobe with our sophisticated designs and
+                experience the luxury of simplicity.
               </p>
               <button className="btn btn-wide btn-primary">Get Started</button>
             </div>
@@ -56,22 +54,23 @@ const Hero = () => {
       </SwiperSlide>
 
       <SwiperSlide>
-        <div className="hero min-h-[80vh]">
-          <div className="hero-overlay bg-opacity-60 contrast-150"></div>
-
-          <Image src={herop} alt="hero" backgroundImage fill style={{
-
-          }}/>
+        <div className="hero min-h-[80vh] relative">
+          <Image
+            src={herop}
+            alt="hero"
+            backgroundImage={true}
+            fill
+            style={{}}
+          />
+          <div className="hero-overlay bg-opacity-60 contrast-200"></div>
 
           <div className="hero-content text-center text-neutral-content">
             <div className="max-w-lg">
-              <h1 className="mb-5 text-5xl font-bold">Unleash Your Style!</h1>
+              <h1 className="mb-5 text-5xl font-bold">The ultimate destination for men’s fashion</h1>
               <p className="mb-5">
-                Welcome to our Block.Boi Fashion Store, where style meets
-                sophistication. We offer a curated selection of high-quality
-                clothing designed to make you look and feel your best. Explore
-                our latest collection and discover a new world of fashion right
-                at your fingertips. It's time to redefine your style with us.
+                Our collection celebrates the art of individuality with vibrant
+                patterns, flowing fabrics, and unique accessories. Discover the
+                boho-chic trend and express your wanderlust through fashion
               </p>
               <button className="btn btn-wide btn-primary">Get Started</button>
             </div>
@@ -81,9 +80,6 @@ const Hero = () => {
 
       <SwiperSlide className="bg-accent h-[90vh]">
         <div className="bg-primary h-[80vh]">do you know what i'm doing</div>
-      </SwiperSlide>
-      <SwiperSlide className="bg-secondary h-[90vh]">
-        <div className="bg-primary h-[80vh]">Please tell me what i'm doing</div>
       </SwiperSlide>
     </Swiper>
   );

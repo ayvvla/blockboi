@@ -27,8 +27,8 @@ const Home = async ({ searchParams: { page = "1" } }: AppProp) => {
   });
 
   return (
-    <div className="flex flex-col items-center mx-auto w-[90%]">
-    {/* Bread Crumb*/}
+    <div className="flex flex-col items-center mx-auto w-[90%] mb-6">
+      {/* Bread Crumb*/}
       <div className="text-sm breadcrumbs self-start">
         <ul>
           <li>

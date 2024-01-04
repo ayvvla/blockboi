@@ -8,6 +8,7 @@ import UserMenuButton from "./UserMenuButton";
 import { authOptions } from "../api/auth/[...nextauth]/route";
 import { getServerSession } from "next-auth/next";
 import prisma from "@/lib/db/prisma";
+import NavbarMenu from "@/components/NavbarMenu";
 
 const searchProducts = async (formData: FormData) => {
   "use server";
@@ -19,54 +20,59 @@ const searchProducts = async (formData: FormData) => {
 };
 
 const Navbar = async () => {
-  const products = await prisma.product.findMany();
-  /* Get array of unique product.categories items */
-  let categories = products
-    .map((product) => product.category)
-    .filter((item, i, ar) => {
-      return ar.indexOf(item) === i;
-    });
-    const category = categories.slice(0,4)
-
   const cart = await getCart();
   const session = await getServerSession(authOptions);
 
   return (
-    <div className="bg-base-100 max-w-[100%] sticky top-0 z-10">
-      <div className="navbar flex-col sm:flex-row gap-2 py-3 max-w-[90%] m-auto">
-        <div className="flex-1">
-          <Link href={"/"}>
-            <Image src={logo} width={140} height={100} alt="Blockboi logo" />
+    <div className="bg-base-100 sticky top-0 z-10">
+      <div className="navbar justify-between gap-x-0 items-center md:flex-row py-3 max-w-[90%] m-auto">
+        <div className="">
+          <Link href={"/"} className="w-40">
+            <Image
+              src={logo}
+              width={140}
+              height={100}
+              alt="Blockboi logo"
+              priority
+            />
           </Link>
         </div>
-        <div className="flex-1">
-          <ul className="flex gap-7">
+
+        <nav className="hidden lg:flex mx-9 text-center">
+          <ul className="flex gap-10 justify-between items-center text-sm">
             <li>
               <Link href="/store">Store</Link>
             </li>
-            {category.map((cat, i) => {
-              return (
-                <li key={i}>
-                  {" "}
-                  <Link href={`/category/${cat}`}> {cat} </Link>{" "}
-                </li>
-              );
-            })}
+            <li>
+              <Link href="/store/Jackets">Jackets</Link>
+            </li>
+            <li className="whitespace-nowrap">
+              <Link href="/store/T-Shirts">T-Shirts</Link>
+            </li>
+            <li>
+              <Link href="/store/Hoodies">Hoodies</Link>
+            </li>
+            <li>
+              <Link href="/store/Hats">Hats</Link>
+            </li>
           </ul>
-        </div>
-        <div className="flex-1 gap-4">
+        </nav>
+
+        <div className="hidden lg:flex gap-x-1 lg:gap-x-5">
           <form action={searchProducts}>
             <div className="form-control">
               <input
                 name="searchQuery"
                 placeholder="Search"
-                className="input input-bordered w-full min-w-[200px] focus:outline-none"
+                className="input input-primary md:input-md w-[150px] md:min-w-[200px] focus:outline-none"
               />
             </div>
           </form>
+
           <CartButton cart={cart} />
           <UserMenuButton session={session} />
         </div>
+        <NavbarMenu cart = {cart}/>
       </div>
     </div>
   );

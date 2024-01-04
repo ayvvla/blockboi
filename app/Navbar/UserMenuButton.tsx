@@ -9,7 +9,6 @@ interface UserMenuButtonProps {
 }
 
 const UserMenuButton = ({ session }: UserMenuButtonProps) => {
-  // console.log(session);
   const user = session?.user;
 
   return (
@@ -22,7 +21,7 @@ const UserMenuButton = ({ session }: UserMenuButtonProps) => {
               alt="profile"
               width={40}
               height={40}
-              className="w-10 rounded-full"
+              className="lg:w-12 lg:h-12 w-[50px] h-[50px] rounded-[100%]"
             />
           </div>
         ) : (

@@ -33,7 +33,6 @@ const CartEntry = ({
           alt={product.name}
           width={200}
           height={200}
-          className="rounded-lg"
         />
         <div className="flex flex-col gap-2">
           <Link href={"/product/" + product.id} className="font-bold">

@@ -7,6 +7,7 @@ import Pagination from "@/components/pagination";
 import NewArrivals from "@/components/NewArrivals";
 import FeaturedProducts from "@/components/FeaturedProducts";
 import Hero from "@/components/Hero";
+import Cta from "@/components/Cta";
 import { TbTruckDelivery } from "react-icons/tb";
 import { GiWorld, GiClothes } from "react-icons/gi";
 import { RiCustomerService2Line, RiSecurePaymentLine } from "react-icons/ri";
@@ -35,30 +36,20 @@ const Home = async ({ searchParams: { page = "1" } }: AppProp) => {
   return (
     <>
       <Hero />
+      <Cta />
       <div className="flex flex-col items-center w-[90%] mx-auto">
         {/* New Arrivals  */}
-
         <div className="mt-8">
           <NewArrivals />
         </div>
-
         {/* Featured Products */}
         <div className="mt-10">
           <FeaturedProducts />
         </div>
+      </div>
 
-        {/* <h1 className="text-4xl font-extrabold">DUNNO</h1>
-      <div className="my-4 grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6 gap-y-10">
-        {(currrentPage === 1 ? products.slice(1) : products).map((product) => {
-          return <ProductCard product={product} key={product.id} />;
-        })}
-      </div>
-      {totalPages > 1 && (
-        <Pagination currentPage={currrentPage} totalPages={totalPages} />
-      )} */}
-      </div>
-      <div className="flex flex-wrap md:flex-nowrap justify-center items-center gap-x-10 w-full bg-base-100 mt-10 py-16 text-gray-600">
-        <div className="flex flex-col items-center gap-y-2">
+      <div className="flex flex-wrap gap-9 justify-center items-center gap-x-10 w-full bg-base-100 mt-10 py-16 text-gray-600">
+        <div className="flex flex-col items-center justify-center gap-y-2">
           <div>
             <TbTruckDelivery size={70} />
           </div>
@@ -88,7 +79,7 @@ const Home = async ({ searchParams: { page = "1" } }: AppProp) => {
         </div>
         <div className="flex flex-col items-center gap-y-2">
           <div>
-            <RiSecurePaymentLine size={70}  />
+            <RiSecurePaymentLine size={70} />
           </div>
           <h1>Secure Payments</h1>
           <p>128bit secure payment gateway</p>

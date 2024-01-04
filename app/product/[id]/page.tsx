@@ -35,9 +35,9 @@ export const generateMetadata = async ({
 const ProductPage = async ({ params: { id } }: ProductPageProps) => {
   const product = await getProduct(id);
   return (
-    <div className="flex flex-col gap-6 w-[90%] mx-auto">
+    <div className="flex flex-col gap-6 w-[90%] mx-auto my-6">
       {/*Bread crumb*/}
-      <div className="text-sm breadcrumbs md:self-start self-center">
+      <div className="text-sm breadcrumbs self-start">
         <ul>
           <li>
             <Link href={"/"}>Home</Link>
@@ -49,26 +49,26 @@ const ProductPage = async ({ params: { id } }: ProductPageProps) => {
         </ul>
       </div>
 
-      <div className="flex flex-col lg:flex-row gap-5 lg:items-center ">
+      <div className="flex flex-col lg:flex-row gap-5">
         <Image
           src={product.imageUrl}
           alt={product.name}
           width={500}
           height={500}
-          className="rounded-lg"
+          className="rounded-lg self-center"
           priority
         />
-        <div>
-          <h1 className="text-5xl font-bold">{product.name}</h1>
+        <div className="">
+          <h1 className="text-3xl md:text-5xl font-bold">{product.name}</h1>
           <PriceTag price={product.price} className="mt-4" />
           <p className="py-6">{product.description}</p>
-          <div className="flex justify-center md:justify-start items-center gap-6">
+          <div className="flex justify-start items-center gap-10">
             <AddToCartButton
               productId={product.id}
               addCartButtonAction={addCartButtonAction}
             />
 
-            <div className="btn btn-accent btn-wide border ">
+            <div className="btn btn-accent  ">
               <Link href={"/checkout"}>Buy it now</Link>
             </div>
           </div>

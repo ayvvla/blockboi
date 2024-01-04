@@ -1,35 +1,62 @@
-import { error } from "console";
-import React from "react";
+import CheckoutOrderEntry from "@/components/CheckoutOrderEntry";
+import { getCart } from "@/lib/db/cart";
+import formatPrice from "@/lib/format";
 import { LiaQuestionCircle } from "react-icons/lia";
+import { redirect } from "next/navigation";
+import { getServerSession } from "next-auth";
+import { authOptions } from "../api/auth/[...nextauth]/route";
 
 export const metadata = {
   title: "Checkout - Blockboi",
 };
 
-const getCheckoutInfo = async (formData: FormData) => {
-  "use server";
-  const name = formData.get("name")?.toString();
-  const email = formData.get("email")?.toString();
-  const phone = formData.get("phone")?.toString();
-  const address = formData.get("address")?.toString();
-  const city = formData.get("city")?.toString();
-  const state = formData.get("state")?.toString();
+const Checkout = async () => {
+  let cart = await getCart();
+  const session = await getServerSession(authOptions);
 
-  console.log(name, email, phone, address, city, state);
+  const onCheckout = async (formData: FormData) => {
+    "use server";
+    const name = session
+      ? session?.user.name
+      : formData.get("name")?.toString();
+    const email = formData.get("email")?.toString();
+    const phone_number = formData.get("number")?.toString();
 
-  if (!email || !email || !address || !city || !state) {
-    try {
-      throw new Error("One of the required fields is missing");
-    } catch (e: any) {
-      console.log(e.message);
+    const config = {
+      tx_ref: Date.now().toString(),
+      amount: 50000,
+      currency: "NGN",
+      redirect_url: "http://localhost:3000/confirmation",
+      payment_options: "card,mobilemoney,ussd",
+      customer: {
+        email: email,
+        phone_number: phone_number,
+        name: name,
+      },
+      customizations: {
+        title: "Blockboi",
+        description: "Payment for items in cart",
+        logo: "https://st2.depositphotos.com/4403291/7418/v/450/depositphotos_74189661-stock-illustration-online-shop-log.jpg",
+      },
+    };
+
+    const response = await fetch("https://api.flutterwave.com/v3/payments", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${process.env.FLW_SECRETKEY}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(config),
+    });
+
+    const result = await response.json();
+    if (result) {
+      console.log(result);
+      redirect(result.data.link);
     }
-  }
+    console.log(result);
+  };
 
-  console.log(error.name);
-  console.log(name, email, phone, address, city, state);
-};
-
-const Checkout = () => {
   return (
     <>
       <div className="h-screen grid grid-cols-3">
@@ -75,18 +102,20 @@ const Checkout = () => {
             </div>
           </div>
           <div className="rounded-md">
-            <form action={getCheckoutInfo}>
+            <form action={onCheckout}>
               <section>
                 <h2 className="uppercase tracking-wide text-lg font-semibold text-gray-700 my-2">
-                  Shipping & Billing Information
+                  Shipping Information
                 </h2>
+                <p>Have an account? Log in</p>
                 <fieldset className="mb-3 bg-white shadow-lg rounded text-gray-600">
                   <label className="flex border-b border-gray-200 h-12 py-3 items-center">
                     <span className="text-right px-2">Name</span>
                     <input
                       name="name"
+                      defaultValue={`${session ? session?.user.name : ""}`}
                       className="focus:outline-none px-3"
-                      placeholder="Adekola"
+                      placeholder="Adekola Chinedu"
                       required
                     />
                   </label>
@@ -95,6 +124,7 @@ const Checkout = () => {
                     <input
                       name="email"
                       type="email"
+                      defaultValue={`${session ? session?.user.email : ""}`}
                       className="focus:outline-none px-3 w-3/6"
                       placeholder="email@example.com"
                       required
@@ -106,6 +136,7 @@ const Checkout = () => {
                       name="address"
                       className="focus:outline-none px-3 w-5/6"
                       placeholder="10 Street XYZ 654"
+                      required
                     />
                   </label>
                   <label className="flex border-b border-gray-200 h-12 py-3 items-center">
@@ -114,6 +145,7 @@ const Checkout = () => {
                       name="city"
                       className="focus:outline-none px-3"
                       placeholder="Ikorodu"
+                      required
                     />
                   </label>
 
@@ -123,9 +155,10 @@ const Checkout = () => {
                       name="state"
                       className="border-none bg-transparent flex-1 cursor-pointer appearance-none pl-3 focus:outline-none"
                       placeholder="Lagos"
+                      required
                     >
-                      <option value="" disabled>
-                        {" "}
+                      <option defaultValue="" disabled>
+                        State
                       </option>
                       <option value="Abia">Abia</option>
                       <option value="FCT">Federal Capital Territory</option>
@@ -136,7 +169,7 @@ const Checkout = () => {
                       <option value="Benue">Benue</option>
                       <option value="Borno">Borno</option>
                       <option value="Cross River">Cross River</option>
-                      <option value="Cross River">Cross River</option>
+                      <option value="Cross River">Delta</option>
                       <option value="Ebonyi">Ebonyi</option>
                       <option value="Edo">Edo</option>
                       <option value="Enugu">Enugu</option>
@@ -172,8 +205,8 @@ const Checkout = () => {
                       name="phone"
                       className="focus:outline-none focus:bg-none px-3 flex-1"
                       placeholder="812-3456-789"
-                      pattern="[0-9]{4}-[0-9]{4}-[0-9]{3}"
-                      maxLength={11}
+                      maxLength={20}
+                      required
                     />
                     <div
                       className="tooltip justify-self-end pr-6 block before:w-[10rem]"
@@ -188,27 +221,16 @@ const Checkout = () => {
                 </fieldset>
               </section>
 
-              <div className="rounded-md">
-                <section>
-                  <h2 className="uppercase tracking-wide text-lg font-semibold text-gray-700 my-2">
-                    Payment Information
-                  </h2>
-                  <fieldset className="mb-3 bg-white shadow-lg rounded text-gray-600">
-                    <label className="flex border-b border-gray-200 h-12 py-3 items-center">
-                      <span className="text-right px-2">Card</span>
-                      <input
-                        name="card"
-                        className="focus:outline-none px-3 w-full"
-                        placeholder="Card number MM/YY CVC"
-                        required
-                      />
-                    </label>
-                  </fieldset>
-                </section>
+              <div className="rounded-md mt-8 shadow-md p-10">
+                <p className="text-center text-gray-800">
+                  After clicking “Pay now”, you will be redirected to
+                  Flutterwave to complete your purchase securely.
+                </p>
               </div>
-              <button className="submit-button px-4 py-3 mt-8 rounded-full bg-pink-400 text-white focus:ring focus:outline-none w-full text-xl font-semibold transition-colors">
-                Pay €846.98
-              </button>
+
+              <div className="submit px-4 py-3 mt-24  rounded-md bg-accent hover:bg-secondary text-white text-center focus:ring focus:outline-none w-full text-xl font-semibold transition-colors cursor-pointer">
+                <button>Pay Now</button>
+              </div>
             </form>
           </div>
         </div>
@@ -217,62 +239,21 @@ const Checkout = () => {
           <h1 className="py-6 border-b-2 text-xl text-gray-600 px-8">
             Order Summary
           </h1>
-          <ul className="py-6 border-b space-y-6 px-8">
-            <li className="grid grid-cols-6 gap-2 border-b-1">
-              <div className="col-span-1 self-center">
-                <img
-                  src="https://bit.ly/3oW8yej"
-                  alt="Product"
-                  className="rounded w-full"
-                />
-              </div>
-              <div className="flex flex-col col-span-3 pt-2">
-                <span className="text-gray-600 text-md font-semi-bold">
-                  Studio 2 Headphone
-                </span>
-                <span className="text-gray-400 text-sm inline-block pt-2">
-                  Red Headphone
-                </span>
-              </div>
-              <div className="col-span-2 pt-3">
-                <div className="flex items-center space-x-2 text-sm justify-between">
-                  <span className="text-gray-400">2 x €30.99</span>
-                  <span className="text-pink-400 font-semibold inline-block">
-                    €61.98
-                  </span>
-                </div>
-              </div>
-            </li>
-            <li className="grid grid-cols-6 gap-2 border-b-1">
-              <div className="col-span-1 self-center">
-                <img
-                  src="https://bit.ly/3lCyoSx"
-                  alt="Product"
-                  className="rounded w-full"
-                />
-              </div>
-              <div className="flex flex-col col-span-3 pt-2">
-                <span className="text-gray-600 text-md font-semi-bold">
-                  Apple iPhone 13
-                </span>
-                <span className="text-gray-400 text-sm inline-block pt-2">
-                  Phone
-                </span>
-              </div>
-              <div className="col-span-2 pt-3">
-                <div className="flex items-center space-x-2 text-sm justify-between">
-                  <span className="text-gray-400">1 x €785</span>
-                  <span className="text-pink-400 font-semibold inline-block">
-                    €785
-                  </span>
-                </div>
-              </div>
-            </li>
-          </ul>
+
+          {cart?.items.map((item) => {
+            return (
+              <ul className="py-6 border-b space-y-6 px-8" key={item.id}>
+                <CheckoutOrderEntry item={item} />
+              </ul>
+            );
+          })}
+
           <div className="px-8 border-b">
             <div className="flex justify-between py-4 text-gray-600">
               <span>Subtotal</span>
-              <span className="font-semibold text-pink-500">€846.98</span>
+              <span className="font-semibold text-pink-500">
+                {formatPrice(cart?.subtotal || 0)}
+              </span>
             </div>
             <div className="flex justify-between py-4 text-gray-600">
               <span>Shipping</span>
@@ -281,7 +262,7 @@ const Checkout = () => {
           </div>
           <div className="font-semibold text-xl px-8 flex justify-between py-8 text-gray-600">
             <span>Total</span>
-            <span>€846.98</span>
+            <span>{formatPrice(cart?.subtotal || 0)}</span>
           </div>
         </div>
       </div>

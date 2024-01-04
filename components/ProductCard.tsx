@@ -1,4 +1,3 @@
-import React from "react";
 import { Product } from "@prisma/client";
 import Link from "next/link";
 import PriceTag from "./PriceTag";
@@ -17,7 +16,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
     <div className="card w-full">
       <Link
         href={"/product/" + product.id}
-        className=" hover:shadow-lg transition-shadow"
+        className="shadow-transparent hover:shadow-xl hover:rounded-xl transition-shadow"
       >
         <figure>
           <Image
@@ -25,20 +24,23 @@ const ProductCard = ({ product }: ProductCardProps) => {
             alt={product.name}
             width={800}
             height={300}
-            className="h-80 w-80 object-contain"
+            className="h-80 w-80 object-cover"
           />
         </figure>
       </Link>
-      <div className="card-body py-4 pl-2 bg-[#f9f9f9] gap-1">
+      <div className="card-body py-4 pl-2 bg-[#f1f2f3] gap-1">
         <div className="flex justify-between items-center">
-          <Link href={"/product/" + product.id} className="card-title link-primary">{product.name}</Link>
+          <Link
+            href={"/product/" + product.id}
+            className="card-title link-primary"
+          >
+            {product.name}
+          </Link>
           {isNew && <div className="badge badge-secondary text-[8px]">NEW</div>}
         </div>
-
         {/* <p>{product.description}</p> */}
         <p>{product.category}</p>
         <PriceTag price={product.price} />
-        
       </div>
     </div>
 
