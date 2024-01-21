@@ -63,7 +63,7 @@ const Navbar = async () => {
             <div className="form-control">
               <input
                 name="searchQuery"
-                placeholder="Search"
+                placeholder="Search..."
                 className="input input-primary md:input-md w-[150px] md:min-w-[200px] focus:outline-none"
               />
             </div>

@@ -25,7 +25,7 @@ const CartPage = async () => {
         );
       })}
 
-      {!cart?.items.length && <div> Your Cart is empty </div>}
+      {!cart?.items.length && <div className="h-[70vh]"> Your Cart is empty </div>}
 
       <div className="flex flex-col items-end sm:items-center"> 
         <p className="mb-3 font-bold">

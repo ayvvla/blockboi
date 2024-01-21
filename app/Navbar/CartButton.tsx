@@ -14,7 +14,7 @@ const CartButton = ({ cart }: CartButtonProps) => {
     }
   }
   return (
-    <div className="dropdown dropdown-end">
+    <div className="dropdown lg:dropdown-end dropdown-bottom">
       <label tabIndex={0} className="btn-ghost btn-circle btn">
         <div className="indicator">
           <svg
@@ -23,7 +23,7 @@ const CartButton = ({ cart }: CartButtonProps) => {
             viewBox="0 0 24 24"
             strokeWidth="1.5"
             stroke="currentColor"
-            className="w-9 h-9"
+            className="w-6 h-6 lg:w-9 lg:h-9"
           >
             <path
               strokeLinecap="round"

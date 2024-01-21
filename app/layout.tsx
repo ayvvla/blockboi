@@ -22,7 +22,7 @@ export default function RootLayout({
   const session = getServerSession(authOptions);
   return (
     <html lang="en">
-      <body className={`w-[100%]  ${inter.className}`}>
+      <body className={`w-[100%] ${inter.className}`}>
         <div className="overflow-hidden">
           <SessionProvider>
             <Navbar />

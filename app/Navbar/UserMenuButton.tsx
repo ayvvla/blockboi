@@ -12,7 +12,7 @@ const UserMenuButton = ({ session }: UserMenuButtonProps) => {
   const user = session?.user;
 
   return (
-    <div className="dropdown dropdown-end">
+    <div className="dropdown lg:dropdown-end dropdown-bottom">
       <label tabIndex={0} className="btn btn-ghost btn-circle">
         {user ? (
           <div className="tooltip tooltip-bottom" data-tip={user.name?.split(" ")[0]}>
@@ -21,16 +21,16 @@ const UserMenuButton = ({ session }: UserMenuButtonProps) => {
               alt="profile"
               width={40}
               height={40}
-              className="lg:w-12 lg:h-12 w-[50px] h-[50px] rounded-[100%]"
+              className="w-7 h-7 lg:w-8 lg:h-8 rounded-[100%]"
             />
           </div>
         ) : (
-          <>Sign in</>
+          <div className="whitespace-nowrap">Sign in</div>
         )}
       </label>
       <ul
         tabIndex={0}
-        className="dropdown-content menu rounded-box menu-sm z-40 mt-3 w-52 bg-base-100 p-2 shadow"
+        className="dropdown-content menu rounded-box menu-sm z-40 mt-3 w-52 bg-base-100 p-2 shadow "
       >
         <li>
           {user ? (
