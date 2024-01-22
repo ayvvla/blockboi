@@ -1,6 +1,8 @@
 import prisma from "@/lib/db/prisma";
 import { NextResponse } from "next/server";
 
+export const dynamic = 'force-dynamic'
+
 export async function GET(req: Request) {
   try {
     const cart = await prisma.cartItem.findMany({
