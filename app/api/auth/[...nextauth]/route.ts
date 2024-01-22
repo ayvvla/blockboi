@@ -9,6 +9,8 @@ import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { mergeAnonymousCart } from "@/lib/db/cart";
 
+export const dynamic = 'force-dynamic'
+
 export const authOptions: NextAuthOptions = {
   session: {
     strategy: "jwt",
