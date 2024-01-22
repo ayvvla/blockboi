@@ -65,7 +65,7 @@ export const authOptions: NextAuthOptions = {
         // check if password match
         const passwordMatch = await bcrypt.compare(
           credentials?.password,
-          user.hashedPassword
+          user.hashedPassword!
         );
 
         if (!passwordMatch) {
