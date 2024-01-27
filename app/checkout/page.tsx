@@ -59,7 +59,7 @@ const Checkout = async () => {
 
   return (
     <>
-      <div className="h-screen grid grid-cols-3">
+      <div className="grid grid-cols-3 mb-9">
         <div className="lg:col-span-2 col-span-3 bg-indigo-50 space-y-8 md:px-12">
           <div className="mt-8 p-4 relative flex flex-col sm:flex-row sm:items-center bg-white shadow rounded-md">
             <div className="flex flex-row items-center border-b sm:border-b-0 w-full sm:w-auto pb-4 sm:pb-0">
@@ -102,15 +102,17 @@ const Checkout = async () => {
             </div>
           </div>
           <div className="rounded-md">
-            <form action={onCheckout}>
+            <form action={onCheckout} className="overflow-x-hidden text-sm">
               <section>
                 <h2 className="uppercase tracking-wide text-lg font-semibold text-gray-700 my-2">
                   Shipping Information
                 </h2>
-                <p>Have an account? Log in</p>
-                <fieldset className="mb-3 bg-white shadow-lg rounded text-gray-600">
-                  <label className="flex border-b border-gray-200 h-12 py-3 items-center">
-                    <span className="text-right px-2">Name</span>
+                <p className="my-2">Have an account? Log in</p>
+                <fieldset className="mb-3 bg-white shadow-lg rounded-sm text-gray-600 ">
+                  <label className="flex border-b border-gray-200 h-12 py-3 items-center max-w-[90%]">
+                    <span className="text-right px-2 text-sm md:text-md">
+                      Name
+                    </span>
                     <input
                       name="name"
                       defaultValue={`${session ? session?.user.name : ""}`}
@@ -120,7 +122,9 @@ const Checkout = async () => {
                     />
                   </label>
                   <label className="flex border-b border-gray-200 h-12 py-3 items-center">
-                    <span className="text-right px-2">Email</span>
+                    <span className="text-right px-2 text-sm md:text-md">
+                      Email
+                    </span>
                     <input
                       name="email"
                       type="email"
@@ -131,7 +135,9 @@ const Checkout = async () => {
                     />
                   </label>
                   <label className="flex border-b border-gray-200 h-12 py-3 items-center">
-                    <span className="text-right px-2">Address</span>
+                    <span className="text-right px-2 text-sm md:text-md">
+                      Address
+                    </span>
                     <input
                       name="address"
                       className="focus:outline-none px-3 w-5/6"
@@ -140,7 +146,9 @@ const Checkout = async () => {
                     />
                   </label>
                   <label className="flex border-b border-gray-200 h-12 py-3 items-center">
-                    <span className="text-right px-2">City</span>
+                    <span className="text-right px-2 text-sm md:text-md">
+                      City
+                    </span>
                     <input
                       name="city"
                       className="focus:outline-none px-3"
@@ -150,7 +158,9 @@ const Checkout = async () => {
                   </label>
 
                   <label className="flex border-t border-gray-200 h-12 py-3 items-center select pl-0 relative">
-                    <span className="text-right px-2">State</span>
+                    <span className="text-right px-2 text-sm md:text-md">
+                      State
+                    </span>
                     <select
                       name="state"
                       className="border-none bg-transparent flex-1 cursor-pointer appearance-none pl-3 focus:outline-none"
@@ -198,8 +208,10 @@ const Checkout = async () => {
                     </select>
                   </label>
 
-                  <label className="flex border-b border-gray-200 h-12 py-3 items-center ">
-                    <span className="text-right px-2">Phone Number</span>
+                  <label className="flex border-b border-gray-200 h-12 py-3 items-center">
+                    <span className="text-right px-2 whitespace-nowrap text-sm md:text-md">
+                      Phone Number
+                    </span>
                     <input
                       type="tel"
                       name="phone"
