@@ -103,7 +103,7 @@ const NavbarMenu = ({ cart }: CartButtonProps) => {
           </Link>
         </ul>
 
-        <div className="flex gap-x-3 absolute bottom-8">
+        <div className="flex gap-x-3 absolute bottom-16">
           <a
             href="https://instagram/boion.theblock"
             target="_blank"
