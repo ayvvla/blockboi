@@ -67,10 +67,6 @@ const ProductPage = async ({ params: { id } }: ProductPageProps) => {
               productId={product.id}
               addCartButtonAction={addCartButtonAction}
             />
-
-            <div className="btn btn-accent  ">
-              <Link href={"/checkout"}>Buy it now</Link>
-            </div>
           </div>
         </div>
       </div>

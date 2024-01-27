@@ -32,7 +32,7 @@ const AddToCartButton = ({
         </button>
         {isPending && <span className="loading loading-spinner loading-md" />}
         {!isPending && success && (
-          <span className="text-success">Added to Cart</span>
+          <span className="text-success text-xs lg:text-md">Added to Cart</span>
         )}
       </div>
     </>

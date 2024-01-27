@@ -1,7 +1,7 @@
 "use client";
 import UserMenuButton from "@/app/Navbar/UserMenuButton";
 import Link from "next/link";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { BiMenuAltRight, BiX } from "react-icons/bi";
 import { useSession } from "next-auth/react";
 import CartButton from "@/app/Navbar/CartButton";
@@ -20,6 +20,11 @@ const NavbarMenu = ({ cart }: CartButtonProps) => {
   const [searchQuery, setSearchQuery] = useState("");
   const { data: session } = useSession();
 
+  useEffect(() => {
+    nav
+      ? (document.body.style.overflow = "hidden")
+      : (document.body.style.overflow = "scroll");
+  }, [nav]);
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     router.push("/search?query=" + searchQuery);
@@ -37,8 +42,8 @@ const NavbarMenu = ({ cart }: CartButtonProps) => {
       <nav
         className={`${
           nav
-            ? "max-h-max py-12 px-4 right-0 "
-            : "max-h-max py-12 px-4 -right-[100%] "
+            ? "max-h-max py-32 px-4 right-0 "
+            : "max-h-max py-32 px-4 -right-[100%] "
         } flex flex-col justify-center items-center bg-[#f1f2e4] text-zinc-800 overflow-hidden font-bold transition-all 
           duration-300 text-center xl:text-center uppercase text-4xl absolute w-[100%] h-[100vh] top-0 lg:hidden`}
       >
@@ -67,30 +72,43 @@ const NavbarMenu = ({ cart }: CartButtonProps) => {
           </div>
         </div>
 
-        <ul className="flex flex-col gap-1 justify-center items-center" onClick={() => setNav(false)}>
-          <li>
-            <Link href="/store">Store</Link>
-          </li>
-          <span className="divider divider-primary w-[100vh]"></span>
-          <li>
-            <Link href="/store/Jackets">Jackets</Link>
-          </li>
-          <span className="divider divider-primary w-[100vh]"></span>
-          <li className="whitespace-nowrap">
-            <Link href="/store/T-Shirts">T-Shirts</Link>
-          </li>
-          <span className="divider divider-primary w-[100vh]"></span>
-          <li>
-            <Link href="/store/Hoodies">Hoodies</Link>
-          </li>
-          <span className="divider divider-primary w-[100vh]"></span>
-          <li>
-            <Link href="/store/Hats">Hats</Link>
-          </li>
+        <ul
+          className="flex flex-col gap-1 w-100%"
+          
+        >
+          <Link href="/store" className="block  my-0" onClick={() => setNav(false)}>
+            <li>Store </li>
+          </Link>
+
+          <span className="divider divider-primary w-[100vw] py-3 my-0 "></span>
+
+          <Link href="/store/Jackets" onClick={() => setNav(false)}>
+            <li>Jackets</li>
+          </Link>
+
+          <span className="divider divider-primary w-[100vw] py-3 my-0"></span>
+
+          <Link href="/store/T-Shirts" onClick={() => setNav(false)}>
+            <li className="whitespace-nowrap">T-Shirts</li>
+          </Link>
+
+          <span className="divider divider-primary w-[100vw] py-3 my-0"></span>
+          <Link href="/store/Hoodies" onClick={() => setNav(false)}>
+            <li>Hoodies</li>
+          </Link>
+
+          <span className="divider divider-primary w-[100vw] py-3 my-0"></span>
+          <Link href="/store/Hats" onClick={() => setNav(false)}>
+            <li>Hats</li>
+          </Link>
         </ul>
 
         <div className="flex gap-x-3 absolute bottom-8">
-          <a href="https://instagram/boion.theblock" target="_blank" className="link">
+          <a
+            href="https://instagram/boion.theblock"
+            target="_blank"
+            className="link"
+          >
             <FaInstagram size={30} />
           </a>
           <a href="https://facebook/boion.theblock" target="_blank">

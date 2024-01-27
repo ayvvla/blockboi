@@ -54,20 +54,22 @@ const Hero = () => {
       </SwiperSlide>
 
       <SwiperSlide>
-        <div className="hero min-h-[80vh] relative">
+        <div className="hero min-h-[80vh] ">
           <Image
             src={herop}
             alt="hero"
-            backgroundImage={true}
             fill
-            style={{}}
+            priority={true}
+            style={{zIndex:'10', filter: 'brightness(0.4)'}}
           />
-          <div className="hero-overlay bg-opacity-60 contrast-200"></div>
 
-          <div className="hero-content text-center text-neutral-content">
-            <div className="max-w-lg">
-              <h1 className="mb-5 text-5xl font-bold">The ultimate destination for men’s fashion</h1>
-              <p className="mb-5">
+          {/* <div className="hero-overlay bg-opacity-60 contrast-150 "></div> */}
+          <div className=" text-neutral-content z-20">
+            <div className="hero-content items-start max-w-5xl flex flex-col gap-y-10 ">
+              <h1 className=" text-5xl font-bold">
+                The ultimate destination for men’s fashion
+              </h1>
+              <p className="max-w-3xl">
                 Our collection celebrates the art of individuality with vibrant
                 patterns, flowing fabrics, and unique accessories. Discover the
                 boho-chic trend and express your wanderlust through fashion
@@ -76,10 +78,6 @@ const Hero = () => {
             </div>
           </div>
         </div>
-      </SwiperSlide>
-
-      <SwiperSlide className="bg-accent h-[90vh]">
-        <div className="bg-primary h-[80vh]">do you know what i'm doing</div>
       </SwiperSlide>
     </Swiper>
   );
